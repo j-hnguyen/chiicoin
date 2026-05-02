@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+# Chiicoin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Chiicoin is a cute themed budgeting app.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Dashboard** — 12-month clickable grid overview
+- **Ledger** — 5-column tables (Description, Date, Budgeted, Actual, Status) with Recharts visualizations
+- **Calendar** — Bunting banners, Chiikawa character art, color-coded sticker book, transaction log sidebar
+- **Auto-sync** — Ledger entries automatically map to calendar stickers
+- **Persistence** — localStorage-backed Zustand store
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+React 19 · TypeScript · Vite · Tauri v2 · Zustand · Framer Motion · Recharts · Tailwind CSS
 
-## Expanding the ESLint configuration
+## Palette
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Cream `#F9EDCB` · Soft Pink `#ECBDC3` · Cocoa Brown `#422725`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Quick Start
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev          # Vite dev server
+npm run tauri dev    # Tauri desktop window
+npm run tauri build  # Release build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Releases
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Push a tag to trigger CI builds (Windows `.exe` + macOS `.dmg`):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+GitHub Actions publishes the release automatically. Requires `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` secrets.
+
+## Project Structure
+
+```
+├── .github/workflows/  # CI release workflow
+├── public/             # Chiikawa character assets
+├── src/
+│   ├── components/     # AddRowModal, BuntingBanner, ChartSidebar, SectionTable, StatCard
+│   ├── pages/          # DashboardPage, LedgerPage, CalendarPage
+│   ├── store/          # Zustand store with localStorage persistence
+│   └── types/          # Transaction types, category colors, month/day names
+├── tauri/              # Tauri v2 Rust backend
+└── .taurirc            # Points CLI to tauri/ directory
 ```
